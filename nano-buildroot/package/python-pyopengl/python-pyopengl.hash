@@ -1,0 +1,5 @@
+# md5, sha256 from https://pypi.org/pypi/PyOpenGL/json
+md5	fcb5bdd0d48da86d9f6124716831de93  PyOpenGL-3.1.5.tar.gz
+sha256	4107ba0d0390da5766a08c242cf0cf3404c377ed293c5f6d701e457c57ba3424  PyOpenGL-3.1.5.tar.gz
+# Locally computed sha256 checksums
+sha256	2ddfc1dd21bf02bfd8f7ce175221f4b0cac73cd40dd6a6f7a72c7342c0bd021f  license.txt
