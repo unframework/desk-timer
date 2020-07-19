@@ -1,0 +1,5 @@
+# md5, sha256 from https://pypi.org/pypi/PySDL2/json
+md5	e77e9c15589e15b6c877555f34a429ab  PySDL2-0.9.7.tar.gz
+sha256	e4fcc8aa1108e4917cb56794575ee08c2a3d9c2c52620474e3ecc8538dadf209  PySDL2-0.9.7.tar.gz
+# Locally computed sha256 checksums
+sha256	2a5ca5cd16b1ee6dd770130e6018cdac7d5044375057926a67c7b32503e13c9d  COPYING.txt
