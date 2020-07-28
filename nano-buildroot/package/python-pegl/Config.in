@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PYTHON_PEGL
+	bool "python-pegl"
+	help
+	  Python 3 wrapper for the EGL API.
+
+	  https://github.com/perey/pegl
