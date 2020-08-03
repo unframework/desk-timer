@@ -1,0 +1,5 @@
+# md5, sha256 from https://pypi.org/pypi/imgui/json
+md5	3e7ddc77ef54b6f064d40a69a5592034  imgui-1.1.0.tar.gz
+sha256	cb5115913674b49d23490a3193069b0dc8dbb964387c3662698afb6b1d7eec37  imgui-1.1.0.tar.gz
+# Locally computed sha256 checksums
+sha256	c4504e5689ea002612a1c3fbe6a7d7942f92efa75ce84a97e4982408bcdba7c4  LICENSE
