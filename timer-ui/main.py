@@ -4,6 +4,8 @@ from __future__ import absolute_import
 from sdl2 import *
 
 import imgui
+import imgui.extra
+import math
 import ctypes
 
 from imgui.integrations.opengl import FixedPipelineRenderer
@@ -133,6 +135,20 @@ class SDL2Renderer(FixedPipelineRenderer):
         io.mouse_wheel = self._mouse_wheel
         self._mouse_wheel = 0
 
+# constants
+SCREEN_W = 480
+SCREEN_H = 272
+
+PADDING = 8
+
+# BUTTON_SPACE_W = 10
+# BUTTON_WIDTH = math.floor((SCREEN_W - BUTTON_SPACE_W * (3 - 1)) / 3)
+BUTTON_ROW_H = 64
+
+MAIN_MINY = BUTTON_ROW_H + 10
+
+WINDOW_FLAGS = imgui.WINDOW_NO_RESIZE | imgui.WINDOW_NO_MOVE | imgui.WINDOW_NO_COLLAPSE
+
 # from PyImgui examples
 def main():
     window, gl_context = impl_pysdl2_init()
@@ -155,7 +171,10 @@ def main():
         imgui.new_frame()
 
         # imgui.set_next_window_position(8 + frame % 50, 8 + frame % 50)
-        imgui.begin("Custom window", False, imgui.WINDOW_ALWAYS_AUTO_RESIZE)
+        imgui.set_next_window_position(0, MAIN_MINY)
+        imgui.set_next_window_size(SCREEN_W, SCREEN_H - MAIN_MINY)
+        imgui.set_next_window_focus()
+        imgui.begin("Custom window", False, WINDOW_FLAGS)
         imgui.text("Bar")
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
@@ -164,6 +183,27 @@ def main():
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
         imgui.end()
+
+        with imgui.extra.istyled(
+            imgui.STYLE_WINDOW_BORDERSIZE, 0.0,
+        ):
+            imgui.set_next_window_position(0, 0)
+            imgui.set_next_window_size(SCREEN_W, BUTTON_ROW_H)
+            imgui.begin("Buttons", False, WINDOW_FLAGS | imgui.WINDOW_NO_TITLE_BAR)
+
+            imgui.columns(3)
+            imgui.button('Button A', -1, BUTTON_ROW_H - PADDING * 2)
+            imgui.next_column()
+            imgui.button('Button B', -1, BUTTON_ROW_H - PADDING * 2)
+            imgui.next_column()
+
+            with imgui.extra.colored(imgui.COLOR_BUTTON, 0.8, 0.4, 0.2):
+                with imgui.extra.colored(imgui.COLOR_BUTTON_HOVERED, 1.0, 0.6, 0.2):
+                    imgui.button('Button C', -1, BUTTON_ROW_H - PADDING * 2)
+
+            imgui.columns(1)
+
+            imgui.end()
 
         # gl.glClearColor(1., 1., 1., 1)
         # gl.glClear(gl.GL_COLOR_BUFFER_BIT)
@@ -182,7 +222,7 @@ def main():
 
 
 def impl_pysdl2_init():
-    width, height = 480, 272
+    width, height = SCREEN_W, SCREEN_H
     window_name = "minimal ImGui/SDL2 example"
 
     if SDL_Init(SDL_INIT_EVERYTHING) < 0:
