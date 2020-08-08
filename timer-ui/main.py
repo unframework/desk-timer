@@ -141,12 +141,13 @@ SCREEN_H = 272
 
 PADDING = 8
 
-BUTTON_SPACE_W = 18 # this results in integer button widths
+BUTTON_SPACE_W = 21 # this results in integer button widths
 BUTTON_AREA_W = math.floor((SCREEN_W - BUTTON_SPACE_W * (3 - 1)) / 3)
-BUTTON_ROW_H = 64
+BUTTON_ROW_H = 70
 BUTTONS_IMGUI_ERROR_W = 5 # ImGui 1.65 seems to add extra padding on right side of columns?
 
-MAIN_MINY = BUTTON_ROW_H + 10
+MAIN_SPACE_H = 30
+MAIN_MINY = BUTTON_ROW_H + MAIN_SPACE_H
 
 WINDOW_FLAGS = imgui.WINDOW_NO_RESIZE | imgui.WINDOW_NO_MOVE | imgui.WINDOW_NO_COLLAPSE | imgui.WINDOW_NO_SAVED_SETTINGS
 
