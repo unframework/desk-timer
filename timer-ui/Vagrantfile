@@ -14,7 +14,7 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision 'shell', privileged: true, inline:
-    "apt-get install -y python3 python3-pip libsdl2-2.0-0 xvfb x11vnc"
+    "apt-get install -y python3 python3-pip libsdl2-2.0-0 libsdl2-image-2.0-0 xvfb x11vnc"
 
   config.vm.provision 'shell', privileged: true, inline:
     "pip3 install pyopengl imgui pysdl2"
