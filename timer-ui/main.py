@@ -5,9 +5,8 @@ import imgui
 import imgui.extra
 import math
 
-import OpenGL.GL as gl
-
 from imgui_integration import SDL2Renderer
+from icons import init_icons
 
 # constants
 SCREEN_W = 480
@@ -32,6 +31,8 @@ def main():
 
     imgui.push_style_var(imgui.STYLE_WINDOW_ROUNDING, 0.0);
 
+    icon_texture = init_icons()
+
     frame = 1
 
     while renderer.process_events():
@@ -44,11 +45,7 @@ def main():
         imgui.begin("Custom window", False, WINDOW_FLAGS)
         imgui.text("Bar")
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
+        imgui.image_button(icon_texture, 16, 16)
         imgui.end()
 
         with imgui.extra.istyled(

@@ -8,8 +8,6 @@ import ctypes
 
 from imgui.integrations.opengl import FixedPipelineRenderer
 
-import OpenGL.GL as gl
-
 # from PyImgui SDL2Renderer
 class SDL2Renderer(FixedPipelineRenderer):
     """Basic SDL2 integration implementation."""
