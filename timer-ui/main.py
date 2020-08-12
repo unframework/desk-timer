@@ -24,6 +24,24 @@ MAIN_MINY = BUTTON_ROW_H + MAIN_SPACE_H
 
 WINDOW_FLAGS = imgui.WINDOW_NO_RESIZE | imgui.WINDOW_NO_MOVE | imgui.WINDOW_NO_COLLAPSE | imgui.WINDOW_NO_SAVED_SETTINGS
 
+def button_label(icon_texture, icon_pos, label):
+    (_, area_h) = imgui.get_content_region_available()
+    pos_y = imgui.get_cursor_pos_y()
+
+    # extra spacing for now
+    imgui.dummy(4, 0)
+    imgui.same_line()
+
+    imgui.set_cursor_pos_y(pos_y + (area_h - ICON_SIZE) / 2)
+    icon_image(icon_texture, icon_pos)
+    imgui.set_cursor_pos_y(pos_y)
+
+    imgui.same_line()
+
+    imgui.set_cursor_pos_y(pos_y + (area_h - imgui.get_text_line_height()) / 2)
+    imgui.text(label)
+    imgui.set_cursor_pos_y(pos_y)
+
 # from PyImgui examples
 def main():
     imgui.create_context()
@@ -62,21 +80,19 @@ def main():
             imgui.set_column_width(3, BUTTON_SPACE_W)
             imgui.set_column_width(4, BUTTON_AREA_W)
 
-            imgui.button('Button A', -1, BUTTON_ROW_H - PADDING * 2)
+            button_label(icon_texture, UIICON_BRICK, 'Menu')
             imgui.next_column()
 
             imgui.dummy(-1, 1)
             imgui.next_column()
 
-            imgui.button('Button B', -1, BUTTON_ROW_H - PADDING * 2)
+            button_label(icon_texture, UIICON_HAND, 'Pause')
             imgui.next_column()
 
             imgui.dummy(-1, 1)
             imgui.next_column()
 
-            with imgui.extra.colored(imgui.COLOR_BUTTON, 0.8, 0.4, 0.2):
-                with imgui.extra.colored(imgui.COLOR_BUTTON_HOVERED, 1.0, 0.6, 0.2):
-                    imgui.button('Button C', -1, BUTTON_ROW_H - PADDING * 2)
+            button_label(icon_texture, UIICON_HOURGLASS, '+1min')
             imgui.next_column()
 
             imgui.columns(1)
