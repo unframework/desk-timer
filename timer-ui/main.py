@@ -83,7 +83,7 @@ def main():
             button_label(icon_texture, UIICON_BRICK, 'Menu')
             imgui.next_column()
 
-            imgui.dummy(-1, 1)
+            imgui.dummy(-1, 1) # TODO fill these in with black to separate label bgs
             imgui.next_column()
 
             button_label(icon_texture, UIICON_HAND, 'Pause')
