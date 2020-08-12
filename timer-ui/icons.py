@@ -1,3 +1,5 @@
+import os
+
 import ctypes
 from sdl2 import *
 from sdl2.sdlimage import *
@@ -5,7 +7,8 @@ import OpenGL.GL as gl
 
 def init_icons():
     rgbaFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA32)
-    rawImage = IMG_Load(b'sample.png')
+    raw_image_path = '%s/icons.png' % os.path.dirname(os.path.abspath(__file__))
+    rawImage = IMG_Load(raw_image_path.encode('utf-8'))
 
     try:
         rgbaImage = SDL_ConvertSurface(rawImage, rgbaFormat, 0)
@@ -22,8 +25,8 @@ def init_icons():
             icon_texture = gl.glGenTextures(1)
 
             gl.glBindTexture(gl.GL_TEXTURE_2D, icon_texture)
-            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
-            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
             gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, surface.w, surface.h, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, pixel_data.raw)
 
         finally:

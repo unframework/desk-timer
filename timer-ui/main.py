@@ -45,7 +45,7 @@ def main():
         imgui.begin("Custom window", False, WINDOW_FLAGS)
         imgui.text("Bar")
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.image_button(icon_texture, 16, 16)
+        imgui.image(icon_texture, 16, 16, (0, 0), (0.25, 0.25))
         imgui.end()
 
         with imgui.extra.istyled(
