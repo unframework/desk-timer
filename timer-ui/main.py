@@ -6,7 +6,7 @@ import imgui.extra
 import math
 
 from imgui_integration import SDL2Renderer
-from icons import init_icons
+from icons import *
 
 # constants
 SCREEN_W = 480
@@ -45,7 +45,7 @@ def main():
         imgui.begin("Custom window", False, WINDOW_FLAGS)
         imgui.text("Bar")
         imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        imgui.image(icon_texture, 16, 16, (0, 0), (0.25, 0.25))
+        icon_image(icon_texture, UIICON_HAND)
         imgui.end()
 
         with imgui.extra.istyled(
