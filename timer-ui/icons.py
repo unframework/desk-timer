@@ -10,7 +10,7 @@ UIICON_BRICK = (0, 0)
 UIICON_HAND = (1, 0)
 UIICON_HOURGLASS = (2, 0)
 
-ICON_SIZE = 16
+ICON_SIZE = 32
 
 _icon_uv_size = 0.25
 
