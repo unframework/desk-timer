@@ -80,19 +80,22 @@ def main():
             imgui.set_column_width(3, BUTTON_SPACE_W)
             imgui.set_column_width(4, BUTTON_AREA_W)
 
-            button_label(icon_texture, UIICON_BRICK, 'Menu')
+            with renderer.label_font():
+                button_label(icon_texture, UIICON_BRICK, 'Menu')
             imgui.next_column()
 
             imgui.dummy(-1, 1) # TODO fill these in with black to separate label bgs
             imgui.next_column()
 
-            button_label(icon_texture, UIICON_HAND, 'Pause')
+            with renderer.label_font():
+                button_label(icon_texture, UIICON_HAND, 'Pause')
             imgui.next_column()
 
             imgui.dummy(-1, 1)
             imgui.next_column()
 
-            button_label(icon_texture, UIICON_HOURGLASS, '+1min')
+            with renderer.label_font():
+                button_label(icon_texture, UIICON_HOURGLASS, '+1min')
             imgui.next_column()
 
             imgui.columns(1)
