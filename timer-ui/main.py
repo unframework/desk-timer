@@ -8,6 +8,8 @@ import math
 from imgui_integration import SDL2Renderer
 from icons import *
 
+from timer_screen import timer_screen
+
 # constants
 SCREEN_W = 480
 SCREEN_H = 272
@@ -56,14 +58,11 @@ def main():
     while renderer.process_events():
         imgui.new_frame()
 
-        # imgui.set_next_window_position(8 + frame % 50, 8 + frame % 50)
         imgui.set_next_window_position(0, MAIN_MINY)
         imgui.set_next_window_size(SCREEN_W, SCREEN_H - MAIN_MINY)
         imgui.set_next_window_focus()
-        imgui.begin("Custom window", False, WINDOW_FLAGS)
-        imgui.text("Bar")
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        icon_image(icon_texture, UIICON_HAND)
+        imgui.begin("Productivity Timer", False, WINDOW_FLAGS)
+        timer_screen(icon_texture)
         imgui.end()
 
         with imgui.extra.istyled(
