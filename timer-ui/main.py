@@ -8,7 +8,7 @@ import math
 from imgui_integration import SDL2Renderer
 from icons import *
 
-from timer_screen import timer_screen
+from timer_screen import init_timer_screen, timer_screen
 
 # constants
 SCREEN_W = 480
@@ -52,6 +52,7 @@ def main():
     imgui.push_style_var(imgui.STYLE_WINDOW_ROUNDING, 0.0);
 
     icon_texture = init_icons()
+    clock_mock_texture = init_timer_screen()
 
     frame = 1
 
@@ -62,7 +63,7 @@ def main():
         imgui.set_next_window_size(SCREEN_W, SCREEN_H - MAIN_MINY)
         imgui.set_next_window_focus()
         imgui.begin("Productivity Timer", False, WINDOW_FLAGS)
-        timer_screen(icon_texture)
+        timer_screen(icon_texture, clock_mock_texture)
         imgui.end()
 
         with imgui.extra.istyled(
