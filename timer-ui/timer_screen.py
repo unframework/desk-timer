@@ -77,9 +77,36 @@ def stats_ui():
 
     imgui.columns(1)
 
+def chart_ui():
+    (pos_x, pos_y) = imgui.get_cursor_screen_pos()
+    base_rgba = imgui.get_color_u32_rgba(.25, .25, .25, 1)
+    filled_rgba = imgui.get_color_u32_rgba(.25, .75, .25, 1)
+    active_rgba = imgui.get_color_u32_rgba(1, 1, 1, 1)
+
+    draw_list = imgui.get_window_draw_list()
+
+    timeline_offset_y = 12
+    timeline_height = 8
+
+    for i in range(96):
+        offset_x = i * 3
+        rgba = active_rgba if i == 35 else (
+            filled_rgba if (i > 18 and i < 22) or (i > 28 and i < 35) else (
+                base_rgba
+            )
+        )
+
+        draw_list.add_rect_filled(
+            pos_x + offset_x,
+            pos_y + timeline_offset_y,
+            pos_x + offset_x + 2,
+            pos_y + timeline_offset_y + timeline_height,
+            rgba
+        )
+
 def timer_screen(icon_texture, clock_mock_texture):
     imgui.columns(2, None, False)
-    imgui.set_column_width(0, 160)
+    imgui.set_column_width(0, 150)
 
     imgui.begin_child("Clock")
     (area_w, area_h) = imgui.get_content_region_available()
@@ -90,9 +117,15 @@ def timer_screen(icon_texture, clock_mock_texture):
 
     imgui.next_column()
 
-    imgui.begin_child("Stats", 0, -20)
+    imgui.begin_child("Stats", 0, -32)
     stats_ui()
     imgui.end_child()
+
+    imgui.begin_child("Chart", 0, 28)
+    # (chart_w, chart_h) = imgui.get_content_region_available()
+    chart_ui()
+    imgui.end_child()
+
     imgui.next_column()
 
     imgui.columns(1)
