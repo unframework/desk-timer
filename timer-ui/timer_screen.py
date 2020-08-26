@@ -77,7 +77,13 @@ def stats_ui():
 
     imgui.columns(1)
 
+def cheap_text_size(text):
+    # no access to CalcTextSize yet (https://github.com/swistakm/pyimgui/issues/117)
+    return len(text) * 7
+
 def chart_ui():
+    margin = 10
+
     (pos_x, pos_y) = imgui.get_cursor_screen_pos()
     base_rgba = imgui.get_color_u32_rgba(.25, .25, .25, 1)
     filled_rgba = imgui.get_color_u32_rgba(.25, .75, .25, 1)
@@ -85,8 +91,9 @@ def chart_ui():
 
     draw_list = imgui.get_window_draw_list()
 
-    timeline_offset_y = 12
     timeline_height = 8
+    timeline_start_x = pos_x + margin
+    timeline_start_y = pos_y + 14
 
     for i in range(96):
         offset_x = i * 3
@@ -97,12 +104,36 @@ def chart_ui():
         )
 
         draw_list.add_rect_filled(
-            pos_x + offset_x,
-            pos_y + timeline_offset_y,
-            pos_x + offset_x + 2,
-            pos_y + timeline_offset_y + timeline_height,
+            timeline_start_x + offset_x,
+            timeline_start_y,
+            timeline_start_x + offset_x + 2,
+            timeline_start_y + timeline_height,
             rgba
         )
+
+    time_start_hour = 2
+    time_label_index = 0
+    for time_label in ['12am', '6am', '12pm', '6pm']:
+        # calculate offset in hours and then convert to notch sizing
+        time_label_offset = ((24 + time_label_index * 6 - time_start_hour) % 24) * 4 * 3
+        time_label_width = cheap_text_size(time_label)
+
+        draw_list.add_text(
+            timeline_start_x + time_label_offset - time_label_width / 2,
+            pos_y,
+            active_rgba,
+            time_label
+        )
+
+        draw_list.add_rect_filled(
+            timeline_start_x + time_label_offset,
+            timeline_start_y + timeline_height + 1,
+            timeline_start_x + time_label_offset + 1,
+            timeline_start_y + timeline_height + 4,
+            base_rgba
+        )
+
+        time_label_index += 1
 
 def timer_screen(icon_texture, clock_mock_texture):
     imgui.columns(2, None, False)
