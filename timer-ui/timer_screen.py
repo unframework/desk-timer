@@ -94,11 +94,12 @@ def chart_ui():
     timeline_height = 8
     timeline_start_x = pos_x + margin
     timeline_start_y = pos_y + 14
+    notch_width = 6
 
-    for i in range(96):
-        offset_x = i * 3
-        rgba = active_rgba if i == 35 else (
-            filled_rgba if (i > 18 and i < 22) or (i > 28 and i < 35) else (
+    for i in range(48):
+        offset_x = i * notch_width
+        rgba = (
+            filled_rgba if (i > 18 and i < 28) or (i > 33) else (
                 base_rgba
             )
         )
@@ -106,16 +107,30 @@ def chart_ui():
         draw_list.add_rect_filled(
             timeline_start_x + offset_x,
             timeline_start_y,
-            timeline_start_x + offset_x + 2,
+            timeline_start_x + offset_x + notch_width - 1,
             timeline_start_y + timeline_height,
             rgba
         )
 
-    time_start_hour = 2
+    draw_list.add_rect_filled(
+        timeline_start_x + 48 * notch_width,
+        timeline_start_y,
+        timeline_start_x + 48 * notch_width + 1,
+        timeline_start_y + timeline_height,
+        active_rgba
+    )
+
+    time_start_hour = 20.25
     time_label_index = 0
-    for time_label in ['12am', '6am', '12pm', '6pm']:
+    for time_label in ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm']:
         # calculate offset in hours and then convert to notch sizing
-        time_label_offset = ((24 + time_label_index * 6 - time_start_hour) % 24) * 4 * 3
+        time_label_hour_offset = (24 + time_label_index * 3 - time_start_hour + 12) % 24
+        time_label_index += 1
+
+        if time_label_hour_offset > 12:
+            continue
+
+        time_label_offset = time_label_hour_offset * 4 * notch_width
         time_label_width = cheap_text_size(time_label)
 
         draw_list.add_text(
@@ -132,8 +147,6 @@ def chart_ui():
             timeline_start_y + timeline_height + 4,
             base_rgba
         )
-
-        time_label_index += 1
 
 def timer_screen(icon_texture, clock_mock_texture):
     imgui.columns(2, None, False)
