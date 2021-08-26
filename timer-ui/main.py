@@ -8,6 +8,8 @@ import math
 from imgui_integration import SDL2Renderer
 from icons import *
 
+from timer_screen import init_timer_screen, timer_screen
+
 # constants
 SCREEN_W = 480
 SCREEN_H = 272
@@ -24,6 +26,24 @@ MAIN_MINY = BUTTON_ROW_H + MAIN_SPACE_H
 
 WINDOW_FLAGS = imgui.WINDOW_NO_RESIZE | imgui.WINDOW_NO_MOVE | imgui.WINDOW_NO_COLLAPSE | imgui.WINDOW_NO_SAVED_SETTINGS
 
+def button_label(icon_texture, icon_pos, label):
+    (_, area_h) = imgui.get_content_region_available()
+    pos_y = imgui.get_cursor_pos_y()
+
+    # extra spacing for now
+    imgui.dummy(4, 0)
+    imgui.same_line()
+
+    imgui.set_cursor_pos_y(pos_y + (area_h - ICON_SIZE) / 2)
+    icon_image(icon_texture, icon_pos)
+    imgui.set_cursor_pos_y(pos_y)
+
+    imgui.same_line()
+
+    imgui.set_cursor_pos_y(pos_y + (area_h - imgui.get_text_line_height()) / 2)
+    imgui.text(label)
+    imgui.set_cursor_pos_y(pos_y)
+
 # from PyImgui examples
 def main():
     imgui.create_context()
@@ -32,20 +52,18 @@ def main():
     imgui.push_style_var(imgui.STYLE_WINDOW_ROUNDING, 0.0);
 
     icon_texture = init_icons()
+    clock_mock_texture = init_timer_screen()
 
     frame = 1
 
     while renderer.process_events():
         imgui.new_frame()
 
-        # imgui.set_next_window_position(8 + frame % 50, 8 + frame % 50)
         imgui.set_next_window_position(0, MAIN_MINY)
         imgui.set_next_window_size(SCREEN_W, SCREEN_H - MAIN_MINY)
         imgui.set_next_window_focus()
-        imgui.begin("Custom window", False, WINDOW_FLAGS)
-        imgui.text("Bar")
-        imgui.text_colored("Eggs and ham? Some rhyme here", 0.0, 1.0, 0.2)
-        icon_image(icon_texture, UIICON_HAND)
+        imgui.begin("Productivity Timer", False, WINDOW_FLAGS)
+        timer_screen(icon_texture, clock_mock_texture)
         imgui.end()
 
         with imgui.extra.istyled(
@@ -62,21 +80,22 @@ def main():
             imgui.set_column_width(3, BUTTON_SPACE_W)
             imgui.set_column_width(4, BUTTON_AREA_W)
 
-            imgui.button('Button A', -1, BUTTON_ROW_H - PADDING * 2)
+            with renderer.label_font():
+                button_label(icon_texture, UIICON_BRICK, 'Menu')
+            imgui.next_column()
+
+            imgui.dummy(-1, 1) # TODO fill these in with black to separate label bgs
+            imgui.next_column()
+
+            with renderer.label_font():
+                button_label(icon_texture, UIICON_HAND, 'Pause')
             imgui.next_column()
 
             imgui.dummy(-1, 1)
             imgui.next_column()
 
-            imgui.button('Button B', -1, BUTTON_ROW_H - PADDING * 2)
-            imgui.next_column()
-
-            imgui.dummy(-1, 1)
-            imgui.next_column()
-
-            with imgui.extra.colored(imgui.COLOR_BUTTON, 0.8, 0.4, 0.2):
-                with imgui.extra.colored(imgui.COLOR_BUTTON_HOVERED, 1.0, 0.6, 0.2):
-                    imgui.button('Button C', -1, BUTTON_ROW_H - PADDING * 2)
+            with renderer.label_font():
+                button_label(icon_texture, UIICON_HOURGLASS, '+1min')
             imgui.next_column()
 
             imgui.columns(1)

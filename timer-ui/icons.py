@@ -10,6 +10,8 @@ UIICON_BRICK = (0, 0)
 UIICON_HAND = (1, 0)
 UIICON_HOURGLASS = (2, 0)
 
+ICON_SIZE = 32
+
 _icon_uv_size = 0.25
 
 def init_icons():
@@ -49,4 +51,4 @@ def icon_image(icon_texture, icon_pos):
     icon_x, icon_y = icon_pos
     uv0 = (icon_x * _icon_uv_size, icon_y * _icon_uv_size)
     uv1 = (uv0[0] + _icon_uv_size, uv0[1] + _icon_uv_size)
-    imgui.image(icon_texture, 16, 16, uv0, uv1)
+    imgui.image(icon_texture, ICON_SIZE, ICON_SIZE, uv0, uv1)

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
+import os
+from contextlib import contextmanager
 from sdl2 import *
+import OpenGL.GL as gl
 
 import imgui
 import ctypes
@@ -33,6 +36,38 @@ class SDL2Renderer(FixedPipelineRenderer):
         self._map_keys()
 
         self._event = SDL_Event()
+
+        self._load_font()
+
+    # override parent font load implementation to tweak alpha
+    def _load_font(self):
+        font_path = '%s/times-new-roman-bold-condensed.ttf' % os.path.dirname(os.path.abspath(__file__))
+        self._label_font = self.io.fonts.add_font_from_file_ttf(font_path, 30)
+
+        atlas_width, atlas_height, atlas_pixels = self.io.fonts.get_tex_data_as_alpha8()
+
+        pixel_count = atlas_width * atlas_height
+        filtered_pixels = bytearray(atlas_pixels)
+        for i in range(pixel_count):
+            # posterize the alpha for a crunchier look
+            filtered_pixels[i] = min(255, ((filtered_pixels[i] + 1) // 128) * 128)
+
+        if self._font_texture is not None:
+            gl.glDeleteTextures([self._font_texture])
+
+        self._font_texture = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self._font_texture)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_ALPHA, atlas_width, atlas_height, 0, gl.GL_ALPHA, gl.GL_UNSIGNED_BYTE, filtered_pixels)
+
+        self.io.fonts.texture_id = self._font_texture
+        self.io.fonts.clear_tex_data()
+
+    @contextmanager
+    def label_font(self):
+        with imgui.font(self._label_font):
+            yield
 
     def _get_clipboard_text(self):
         return SDL_GetClipboardText()
