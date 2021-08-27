@@ -29,3 +29,29 @@ The actual Python script commandline is the same as on the Lichee Pi Nano:
 ```
 PYSDL2_DLL_PATH=/usr/lib DISPLAY=:1 SDL_VIDEODRIVER=x11 SDL_NOMOUSE=true python3 /vagrant/pyimgui.py
 ```
+
+## Testing Scripts on Lichee Pi
+
+First, make a ZIP file (small one hopefully):
+
+```
+zip timer-ui.zip *py *png *ttf
+```
+
+Start decoder on the Lichee Pi:
+
+```
+base64 -d | unzip -
+```
+
+Then base64-encode the data and copy-paste the data into serial console:
+
+```
+base64 < timer-ui.zip
+```
+
+Run the script:
+
+```
+PYSDL2_DLL_PATH=/usr/lib DISPLAY=:0 SDL_VIDEODRIVER=x11 SDL_NOMOUSE=true python3 main.py
+```
