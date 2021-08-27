@@ -1,0 +1,13 @@
+diff -u python3-3.8.2.orig/Makefile.pre.in python3-3.8.2/Makefile.pre.in
+--- python3-3.8.2.orig/Makefile.pre.in	2021-08-27 18:21:09.057000000 +0000
++++ python3-3.8.2/Makefile.pre.in	2021-08-27 18:25:16.145000000 +0000
+@@ -1407,7 +1407,8 @@
+ 		test/test_tools test/test_warnings test/test_warnings/data \
+ 		unittest/test unittest/test/testmock
+ 
+-ifeq (@TK@,yes)
++# always compile Tkinter (@unframework 2021-08-27)
++ifneq (@TK@,actually_disable)
+ LIBSUBDIRS += tkinter
+ TESTSUBDIRS += tkinter/test tkinter/test/test_tkinter \
+ 	tkinter/test/test_ttk
