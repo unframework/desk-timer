@@ -1,13 +1,26 @@
 diff -u python3-3.8.2.orig/Makefile.pre.in python3-3.8.2/Makefile.pre.in
 --- python3-3.8.2.orig/Makefile.pre.in	2021-08-27 18:21:09.057000000 +0000
 +++ python3-3.8.2/Makefile.pre.in	2021-08-27 18:25:16.145000000 +0000
-@@ -1407,7 +1407,8 @@
+@@ -1407,7 +1407,9 @@
  		test/test_tools test/test_warnings test/test_warnings/data \
  		unittest/test unittest/test/testmock
  
 -ifeq (@TK@,yes)
 +# always compile Tkinter (@unframework 2021-08-27)
-+ifneq (@TK@,actually_disable)
++ifeq (@TK@,actually_disable)
++else
  LIBSUBDIRS += tkinter
  TESTSUBDIRS += tkinter/test tkinter/test/test_tkinter \
  	tkinter/test/test_ttk
+diff -u python3-3.8.2.orig/configure.ac python3-3.8.2/configure.ac
+--- python3-3.8.2.orig/configure.ac 2021-08-27 18:59:13.565000000 +0000
++++ python3-3.8.2/configure.ac  2021-08-27 18:59:47.705000000 +0000
+@@ -3304,7 +3304,7 @@
+  AS_HELP_STRING([--disable-tk], [disable tk]),
+  [ TK="${enableval}" ], [ TK=yes ])
+
+-if test "$TK" = "no"; then
++if test "$TK" = "actually_disable"; then
+    DISABLED_EXTENSIONS="${DISABLED_EXTENSIONS} _tkinter"
+ fi
+
