@@ -15,13 +15,10 @@ TOP_BUTTON_H = 70
 MAIN_GAP_H = 30
 
 class Application(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self['width'] = SCREEN_W
-        self['height'] = SCREEN_H
-
-        self.grid(column=0, row=0, sticky=('N', 'S', 'E', 'W'))
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.pack(fill=tk.BOTH, expand=True)
 
         btnFont = font.Font(family='Times New Roman MT Condensed', size=18)
 
@@ -62,10 +59,8 @@ class Application(tk.Frame):
         self.columnconfigure(4, weight=1)
         self.rowconfigure(2, weight=1)
 
-        self.pack()
-    def say_hi(self):
-        print("hi there, everyone!")
-
 root = tk.Tk()
-app = Application(master=root)
+root.geometry('%dx%d+0+0' % (SCREEN_W, SCREEN_H))
+
+app = Application(parent=root)
 app.mainloop()
