@@ -5,6 +5,7 @@ from tkinter import font
 from main_layout import MainLayout
 from main_layout import SCREEN_W
 from main_layout import SCREEN_H
+from timer_frame import TimerFrame
 
 class Application(tk.Frame):
     def __init__(self, parent=None):
@@ -47,6 +48,8 @@ class Application(tk.Frame):
             compound=tk.LEFT
         )
         self.btn3.pack(fill=tk.BOTH, expand=True)
+
+        self.timerFrame = TimerFrame(parent=self.layout.main_frame())
 
 root = tk.Tk()
 root.geometry('%dx%d+0+0' % (SCREEN_W, SCREEN_H))

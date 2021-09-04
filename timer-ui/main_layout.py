@@ -16,6 +16,11 @@ class MainLayout(tk.Frame):
         super().__init__(parent)
         self.pack(fill=tk.BOTH, expand=True)
 
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(2, weight=1)
+        self.columnconfigure(4, weight=1)
+        self.rowconfigure(2, weight=1)
+
         self.btn1Slot = tk.Frame(self)
         self.btn1Slot.grid(column=0, row=0, sticky=('N', 'S', 'E', 'W'))
         self.btn1Slot.pack_propagate(False)
@@ -48,12 +53,7 @@ class MainLayout(tk.Frame):
         self.main = tk.Frame(self)
         self.main.pack_propagate(False)
         self.main.grid_propagate(False)
-        self.main.grid(column=0, row=2, columnspan=5)
-
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(2, weight=1)
-        self.columnconfigure(4, weight=1)
-        self.rowconfigure(2, weight=1)
+        self.main.grid(column=0, row=2, columnspan=5, sticky=('N', 'S', 'E', 'W'))
 
         self.topRowFrames = [
             self.btn1Slot,
