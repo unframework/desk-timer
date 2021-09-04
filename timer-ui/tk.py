@@ -1,3 +1,4 @@
+import os
 import math
 import tkinter as tk
 from tkinter import font
@@ -22,9 +23,14 @@ class Application(tk.Frame):
 
         btnFont = font.Font(family='Times New Roman MT Condensed', size=18)
 
-        self.btn1 = tk.Button(self, font=btnFont)
-        self.btn1["text"] = "Button 1"
-        # self.btn1['height'] = TOP_BUTTON_H
+        basePath = os.path.dirname(os.path.abspath(__file__))
+        self.menuIcon = tk.PhotoImage(file='%s/icons/menu.png' %  basePath).zoom(2, 2) # persistent image reference
+        self.handIcon = tk.PhotoImage(file='%s/icons/hand.png' %  basePath).zoom(2, 2) # persistent image reference
+        self.hourglassIcon = tk.PhotoImage(file='%s/icons/hourglass.png' %  basePath).zoom(2, 2) # persistent image reference
+
+        self.btn1 = tk.Button(self, font=btnFont, compound=tk.LEFT)
+        self.btn1["text"] = "Menu"
+        self.btn1["image"] = self.menuIcon
         self.btn1.grid(column=0, row=0, sticky=('N', 'S', 'E', 'W'))
 
         self.btnGap1 = tk.Frame(self)
@@ -32,9 +38,9 @@ class Application(tk.Frame):
         self.btnGap1['height'] = TOP_BUTTON_H
         self.btnGap1.grid(column=1, row=0)
 
-        self.btn2 = tk.Button(self, font=btnFont)
-        self.btn2["text"] = "Button 2"
-        # self.btn2['height'] = TOP_BUTTON_H
+        self.btn2 = tk.Button(self, font=btnFont, compound=tk.LEFT)
+        self.btn2["text"] = "Pause"
+        self.btn2["image"] = self.handIcon
         self.btn2.grid(column=2, row=0, sticky=('N', 'S', 'E', 'W'))
 
         self.btnGap2 = tk.Frame(self)
@@ -42,9 +48,9 @@ class Application(tk.Frame):
         self.btnGap2['height'] = TOP_BUTTON_H
         self.btnGap2.grid(column=3, row=0)
 
-        self.btn3 = tk.Button(self, font=btnFont)
-        self.btn3["text"] = "Button 3"
-        # self.btn3['height'] = TOP_BUTTON_H
+        self.btn3 = tk.Button(self, font=btnFont, compound=tk.LEFT)
+        self.btn3["text"] = "+1min"
+        self.btn3["image"] = self.hourglassIcon
         self.btn3.grid(column=4, row=0, sticky=('N', 'S', 'E', 'W'))
 
         self.gap = tk.Frame(self)
