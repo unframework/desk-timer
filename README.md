@@ -16,7 +16,7 @@ Start background Xvfb with GLX support (sized to mimic the screen size):
 Xvfb :1 -screen 0 480x272x24 +extension GLX +render -noreset &
 ```
 
-Then run TightVNC on e.g. host Windows in listen mode.
+Then run TightVNC Viewer (not same as normal VNC service) on e.g. host Windows and enable listen mode.
 
 Once that is ready, run x11vnc on Vagrant:
 
@@ -27,7 +27,7 @@ x11vnc -display :1 -connect 10.0.2.2 &
 The actual Python script commandline is the same as on the Lichee Pi Nano:
 
 ```
-PYSDL2_DLL_PATH=/usr/lib DISPLAY=:1 SDL_VIDEODRIVER=x11 SDL_NOMOUSE=true python3 /vagrant/pyimgui.py
+DISPLAY=:1 python3 /vagrant/main.py
 ```
 
 ## Testing Scripts on Lichee Pi
@@ -53,5 +53,5 @@ base64 < timer-ui.zip
 Run the script:
 
 ```
-PYSDL2_DLL_PATH=/usr/lib DISPLAY=:0 SDL_VIDEODRIVER=x11 SDL_NOMOUSE=true python3 main.py
+DISPLAY=:0 python3 main.py
 ```
