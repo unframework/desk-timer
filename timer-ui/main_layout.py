@@ -46,9 +46,9 @@ class MainLayout(tk.Frame):
         self.btn3Slot.pack_propagate(False)
         self.btn3Slot.grid_propagate(False)
 
-        self.gap = tk.Frame(self)
+        self.gap = tk.Frame(self, background='#000000')
         self.gap['height'] = MAIN_GAP_H
-        self.gap.grid(column=0, row=1, columnspan=5)
+        self.gap.grid(column=0, row=1, columnspan=5, sticky=('E', 'W'))
 
         self.main = tk.Frame(self)
         self.main.pack_propagate(False)

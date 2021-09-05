@@ -27,7 +27,8 @@ class Application(tk.Frame):
             font=btnFont,
             image=self.menuIcon,
             text='Menu',
-            compound=tk.LEFT
+            compound=tk.LEFT,
+            borderwidth=0,
         )
         self.btn1.pack(fill=tk.BOTH, expand=True)
 
@@ -36,7 +37,8 @@ class Application(tk.Frame):
             font=btnFont,
             image=self.handIcon,
             text='Pause',
-            compound=tk.LEFT
+            compound=tk.LEFT,
+            borderwidth=0,
         )
         self.btn2.pack(fill=tk.BOTH, expand=True)
 
@@ -45,7 +47,8 @@ class Application(tk.Frame):
             font=btnFont,
             image=self.hourglassIcon,
             text='+1min',
-            compound=tk.LEFT
+            compound=tk.LEFT,
+            borderwidth=0,
         )
         self.btn3.pack(fill=tk.BOTH, expand=True)
 
@@ -53,6 +56,7 @@ class Application(tk.Frame):
 
 root = tk.Tk()
 root.geometry('%dx%d+0+0' % (SCREEN_W, SCREEN_H))
+root.tk_setPalette(background='#101010')
 
 app = Application(parent=root)
 app.mainloop()

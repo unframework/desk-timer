@@ -50,10 +50,9 @@ class TimerProgressFrame(tk.Frame):
         self.parent = parent
         self.pack(fill=tk.BOTH, expand=True)
 
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1) # center vertically (not horizontally)
 
-        margin = 10 # space on the sides so that text labels can fit in
+        margin = 12 # space on the sides so that text labels can fit in
 
         base_rgba = '#404040'
         filled_rgba = '#40c040'
@@ -61,13 +60,13 @@ class TimerProgressFrame(tk.Frame):
 
         timeline_height = 8
         timeline_start_x = margin + 1 # need an extra 1 for some reason?
-        timeline_start_y = 14
+        timeline_start_y = 13
         notch_width = 6
 
         total_width = notch_width * 48 + 1 + margin * 2
 
         self.chart = tk.Canvas(self, width=total_width, height=24)
-        self.chart.grid(column=0, row=0, pady=8)
+        self.chart.grid(column=0, row=0, pady=12)
 
         timeFont = font.Font(family='Fixed', size=8)
 
@@ -83,7 +82,7 @@ class TimerProgressFrame(tk.Frame):
                 timeline_start_x + offset_x,
                 timeline_start_y,
                 timeline_start_x + offset_x + notch_width - 1,
-                timeline_start_y + timeline_height - 1,
+                timeline_start_y + timeline_height,
                 fill=rgba,
                 width=0,
             )
@@ -92,7 +91,7 @@ class TimerProgressFrame(tk.Frame):
             timeline_start_x + 48 * notch_width,
             timeline_start_y,
             timeline_start_x + 48 * notch_width + 1,
-            timeline_start_y + timeline_height - 1,
+            timeline_start_y + timeline_height,
             fill=active_rgba,
             width=0,
         )
@@ -120,9 +119,9 @@ class TimerProgressFrame(tk.Frame):
 
             self.chart.create_rectangle(
                 timeline_start_x + time_label_offset,
-                timeline_start_y + timeline_height,
+                timeline_start_y + timeline_height + 1,
                 timeline_start_x + time_label_offset + 1,
-                timeline_start_y + timeline_height + 3,
+                timeline_start_y + timeline_height + 4,
                 fill=base_rgba,
                 width=0,
             )
@@ -143,7 +142,7 @@ class TimerFrame(tk.Frame):
         self.clockFace.grid(column=0, row=0, rowspan=2, padx=12, pady=12)
 
         self.detailsFrame = tk.Frame(self)
-        self.detailsFrame.grid(column=1, row=0, sticky=('N', 'S', 'E', 'W'))
+        self.detailsFrame.grid(column=1, row=0, sticky=('N', 'S', 'E', 'W'), padx=12, pady=(12, 0))
 
         self.progressFrame = tk.Frame(self)
         self.progressFrame.grid(column=1, row=1, sticky=('N', 'S', 'E', 'W'))
