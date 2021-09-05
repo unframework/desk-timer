@@ -44,6 +44,89 @@ class TimerDetailsFrame(tk.Frame):
         val = tk.Label(self, text="2h 20m", font=valueFont, foreground='#cccccc')
         val.grid(column=1, row=5, sticky='W')
 
+class TimerProgressFrame(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.parent = parent
+        self.pack(fill=tk.BOTH, expand=True)
+
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        margin = 10 # space on the sides so that text labels can fit in
+
+        base_rgba = '#404040'
+        filled_rgba = '#40c040'
+        active_rgba = '#fff'
+
+        timeline_height = 8
+        timeline_start_x = margin + 1 # need an extra 1 for some reason?
+        timeline_start_y = 14
+        notch_width = 6
+
+        total_width = notch_width * 48 + 1 + margin * 2
+
+        self.chart = tk.Canvas(self, width=total_width, height=24)
+        self.chart.grid(column=0, row=0, pady=8)
+
+        timeFont = font.Font(family='Fixed', size=8)
+
+        for i in range(48):
+            offset_x = i * notch_width
+            rgba = (
+                filled_rgba if (i > 18 and i < 28) or (i > 33) else (
+                    base_rgba
+                )
+            )
+
+            self.chart.create_rectangle(
+                timeline_start_x + offset_x,
+                timeline_start_y,
+                timeline_start_x + offset_x + notch_width - 1,
+                timeline_start_y + timeline_height - 1,
+                fill=rgba,
+                width=0,
+            )
+
+        self.chart.create_rectangle(
+            timeline_start_x + 48 * notch_width,
+            timeline_start_y,
+            timeline_start_x + 48 * notch_width + 1,
+            timeline_start_y + timeline_height - 1,
+            fill=active_rgba,
+            width=0,
+        )
+
+        time_start_hour = 20.25
+        time_label_index = 0
+        for time_label in ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm']:
+            # calculate offset in hours and then convert to notch sizing
+            time_label_hour_offset = (24 + time_label_index * 3 - time_start_hour + 12) % 24
+            time_label_index += 1
+
+            if time_label_hour_offset > 12:
+                continue
+
+            time_label_offset = time_label_hour_offset * 4 * notch_width
+
+            self.chart.create_text(
+                timeline_start_x + time_label_offset,
+                timeline_start_y,
+                anchor='s',
+                fill=active_rgba,
+                font=timeFont,
+                text=time_label,
+            )
+
+            self.chart.create_rectangle(
+                timeline_start_x + time_label_offset,
+                timeline_start_y + timeline_height,
+                timeline_start_x + time_label_offset + 1,
+                timeline_start_y + timeline_height + 3,
+                fill=base_rgba,
+                width=0,
+            )
+
 class TimerFrame(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -62,8 +145,8 @@ class TimerFrame(tk.Frame):
         self.detailsFrame = tk.Frame(self)
         self.detailsFrame.grid(column=1, row=0, sticky=('N', 'S', 'E', 'W'))
 
-        self.progressFrame = tk.Frame(self, relief=tk.GROOVE, borderwidth=2)
-        self.progressFrame['height'] = 16
+        self.progressFrame = tk.Frame(self)
         self.progressFrame.grid(column=1, row=1, sticky=('N', 'S', 'E', 'W'))
 
         self.detailsContent = TimerDetailsFrame(self.detailsFrame)
+        self.progressContent = TimerProgressFrame(self.progressFrame)
